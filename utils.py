@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-def getContours(img, cThr=[100, 100], showCanny=False, minArea=1000, filter=0):
+def getContours(img, cThr=[100, 100], showCanny=False, minArea=1000, filter=0, draw=False):
     imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     imgBlur = cv2.GaussianBlur(imgGray, [5, 5], 1)
     imgCanny = cv2.Canny(imgBlur, cThr[0], cThr[1])
@@ -25,8 +25,14 @@ def getContours(img, cThr=[100, 100], showCanny=False, minArea=1000, filter=0):
 
             if filter > 0:
                 if (len(approx) == filter):
-                    finalContours.append(len(approx), area, approx, bbox, i)
+                    finalContours.append([len(approx), area, approx, bbox, i])
             else:
-                finalContours.append(len(approx), area, approx, bbox, i)
+                finalContours.append([len(approx), area, approx, bbox, i])
 
     finalContours = sorted(finalContours, key=lambda x: x[1], reverse=True)
+
+    if draw:
+        for con in finalContours:
+            cv2.drawContours(img, con[4], -1, (0, 255, 0), 3)
+
+    return img, finalContours
