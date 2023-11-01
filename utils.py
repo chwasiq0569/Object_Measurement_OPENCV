@@ -52,5 +52,11 @@ def reorder(mypoints):
 
 
 def warpImg(img, points, w, h):
-    print(points)
-    print(reorder(points))
+    # print(points)
+    # print(reorder(points))
+    points = reorder(points)
+    pts1 = np.float32(points)
+    pts2 = np.float32([[0, 0], [w, 0], [0, h], [w, h]])
+    matrix = cv2.getPerspectiveTransform(pts1, pts2)
+    imgWarp = cv2.warpPerspective(img, matrix, (w, h))
+    return imgWarp
