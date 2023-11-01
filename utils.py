@@ -54,3 +54,7 @@ def warpImg(img, points, w, h, pad=20):
     imgWarp = cv2.warpPerspective(img, matrix, (w, h))
     imgWarp = imgWarp[pad:imgWarp.shape[0]-pad, pad:imgWarp.shape[1]-pad]
     return imgWarp
+
+
+def findDis(pts1, pts2):
+    return ((pts2[0] - pts1[0])**2 + (pts2[1] - pts1[1])**2)**0.5
